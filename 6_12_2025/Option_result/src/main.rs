@@ -302,22 +302,23 @@
 //     println!("B {:?}",value_b);
 // }
 //----------------------------- 15 -------------------------------------------
-struct AccountColateral{
-    usd_value:u32
-}
-fn main(){
-    let colateral_account_a:Option<AccountColateral>=Some(
-        AccountColateral{
-            usd_value:777777777
-        }
-    );
-    let colateral_account_b:Option<AccountColateral>=None;
-    let value_a:Option<u32>=colateral_account_a.map(
-        |record|{record.usd_value}
-    );
-    let value_b:Option<u32>=colateral_account_b.map(
-        |record|{record.usd_value}
-    );
-    println!("A {:?}",value_a);
-    println!("B {:?}",value_b);
-}
+// struct AccountColateral{
+//     usd_value:u32
+// }
+// fn main(){
+//     let colateral_account_a:Option<AccountColateral>=Some(
+//         AccountColateral{
+//             usd_value:777777777
+//         }
+//     );
+//     let colateral_account_b:Option<AccountColateral>=None;
+//     let value_a:Option<u32>=colateral_account_a.map(
+//         |record|{record.usd_value}
+//     );
+//     let value_b:Option<u32>=colateral_account_b.map(
+//         |record|{record.usd_value}
+//     );
+//     println!("A {:?}",value_a);
+//     println!("B {:?}",value_b);
+// }
+//----------------------------- Result -------------------------------------------
