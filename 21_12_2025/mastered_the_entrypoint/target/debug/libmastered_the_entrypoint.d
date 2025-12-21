@@ -1,0 +1,1 @@
+/media/seam/A/Rust_Solana/Prectice_project/Rust_prectice/21_12_2025/mastered_the_entrypoint/target/debug/libmastered_the_entrypoint.so: /media/seam/A/Rust_Solana/Prectice_project/Rust_prectice/21_12_2025/mastered_the_entrypoint/src/lib.rs
