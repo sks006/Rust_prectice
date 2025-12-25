@@ -992,6 +992,7 @@ use solana_program::{
     pubkey::Pubkey,
     entrypoint,
     entrypoint::ProgramResult,
+    program_error::ProgramError,
     msg,
     system_program
 };
@@ -1008,8 +1009,11 @@ pub fn process_instruction(
     let lamports=target_account.lamports();
     let sol_balance=lamports as f64/1_000_000_000.0;
     if target_account.owner==&system_program::ID{
-        msg!{"target == system"}
+        return Err{}
     };
+    if target_account,is_signer==&system_program::ID{
+
+    }
     Ok(())
 }
 
@@ -1044,3 +1048,55 @@ mod test {
         println!("--- SIMULATION SUCCESSFUL ---\n");
     }
 }
+
+// use solana_program::{
+//     account_info::{next_account_info, AccountInfo},
+//     entrypoint,
+//     entrypoint::ProgramResult,
+//     pubkey::Pubkey,
+//     program_error::ProgramError,
+//     msg,
+//     system_program,
+// };
+
+// // 1. THE ENTRYPOINT (Your "Front Door")
+// entrypoint!(process_instruction);
+
+// pub fn process_instruction(
+//     program_id: &Pubkey,
+//     accounts: &[AccountInfo],
+//     _instruction_data: &[u8],
+// ) -> ProgramResult {
+    
+//     // 2. ACCOUNT ITERATION
+//     let accounts_iter = &mut accounts.iter();
+//     let target_account = next_account_info(accounts_iter)?;
+
+//     // --- GATE 1: THE SIGNER RULE ---
+//     // Rule: Never trust an account's identity unless it has signed.
+//     // HINT: Use an 'if' statement to check 'target_account.is_signer'.
+//     // Return: ProgramError::MissingRequiredSignature
+//     /* TODO: Implement Signer Check here */
+
+//     // --- GATE 2: THE OWNERSHIP RULE ---
+//     // Rule: Ensure the account is actually owned by the expected program.
+//     // HINT: Compare 'target_account.owner' with '&system_program::ID'.
+//     // Return: ProgramError::IncorrectProgramId
+//     /* TODO: Implement Ownership Check here */
+
+//     // --- GATE 3: THE WRITABLE RULE ---
+//     // Rule: If you plan to change data later, the account must be writable.
+//     // HINT: Check 'target_account.is_writable'.
+//     // Return: ProgramError::InvalidAccountData
+//     /* TODO: Implement Writable Check here */
+
+//     // 3. LOGIC & MATH (The HFT Performance Path)
+//     // Rule: NO FLOATS. Use integer scaling for 2025 consensus stability.
+//     let lamports = target_account.lamports();
+    
+//     // Instead of f64, keep it as u64.
+//     // Logic: In HFT, we represent 1 SOL as 1,000,000,000 u64.
+//     msg!("RWA Vault Balance: {} lamports", lamports);
+
+//     Ok(())
+// }
