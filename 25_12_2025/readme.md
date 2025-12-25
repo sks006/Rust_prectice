@@ -68,35 +68,43 @@ mod test {
     #[test]
     fn test_security_gates() {
         let program_id = Pubkey::new_unique();
+        
+        // --- Account 1: User ---
         let auth_key = Pubkey::new_unique();
         let mut lamports = 1_000_000_000;
         let mut data = vec![0; 0];
         let owner = system_program::ID;
 
-        // Simulate an account that IS a signer and IS writable
         let account = AccountInfo::new(
             &auth_key,
             true,  // is_signer
             true,  // is_writable
-            &mut lamports,
-            &mut data,
+            &mut lamports, // Points to 'lamports' variable above
+            &mut data,     // Points to 'data' variable above
             &owner,
             false,
             Epoch::default(),
         );
 
+        // --- Account 2: System Program ---
+        // RULE: We must bind these to variables so they live through the whole test
+        let mut system_lamports = 0; 
+        let mut system_data = vec![0; 0]; 
+
         let system_prog_info = AccountInfo::new(
             &system_program::ID,
             false,
             false,
-            &mut 0,
-            &mut vec![0;0],
+            &mut system_lamports, // Now points to a long-lived variable
+            &mut system_data,     // Now points to a long-lived variable
             &system_program::ID,
             true,
             Epoch::default()
         );
 
+        // Now both 'account' and 'system_prog_info' point to valid variables
         let accounts = vec![account, system_prog_info];
+        
         let result = process_instruction(&program_id, &accounts, &[]);
         assert!(result.is_ok());
     }
