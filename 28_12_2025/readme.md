@@ -1,4 +1,5 @@
 ```
+error.rs
 use anchor_lang::prelude::*;
 
 #[error_code]
@@ -12,6 +13,7 @@ pub enum VaultError {
 ```
 =========================
 ```
+stat.rs
 use anchor_lang::prelude::*;
 
 #[account]
@@ -28,6 +30,7 @@ impl Vault {
 ```
 ====================
 ```
+initialize.rs
 use anchor_lang::prelude::*;
 use crate::state::Vault;
 use crate::constants::VAULT_SEED;
@@ -65,6 +68,7 @@ pub fn handler(ctx: Context<Initialize>) -> Result<()> {
 ==================
 
 ```
+initialize.rs
 use anchor_lang::prelude::*;
 use crate::state::Vault;
 use crate::constants::VAULT_SEED;
@@ -101,6 +105,8 @@ pub fn handler(ctx: Context<Initialize>) -> Result<()> {
 
 =============================
 ```
+lib.rs
+
 pub mod error;
 pub mod state;
 pub mod constants;

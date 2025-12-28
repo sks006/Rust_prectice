@@ -1,21 +1,18 @@
-pub mod constants;
 pub mod error;
-pub mod instructions;
 pub mod state;
+pub mod constants;
+pub mod instructions;
 
 use anchor_lang::prelude::*;
+use instructions::*;
 
-pub use constants::*;
-pub use instructions::*;
-pub use state::*;
-
-declare_id!("GKRNgpjvn5E1wGgw1YcpPT2Xfn3T928iwzePha7e1u1d");
+declare_id!("YourProgramIDHere11111111111111111111111");
 
 #[program]
-pub mod anchor_boilertplate {
+pub mod anchor_vault {
     use super::*;
 
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
-        initialize::handler(ctx)
+        instructions::initialize::handler(ctx)
     }
 }
