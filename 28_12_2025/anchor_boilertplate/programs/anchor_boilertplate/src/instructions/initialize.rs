@@ -1,33 +1,37 @@
 use anchor_lang::prelude::*;
-use crate::state::Vault;
-use crate::constants::VAULT_SEED;
+use crate::state::*;
+use crate::error::ErrorCode; // Ensure this import is here
 
-#[derive(Accounts)]
-pub struct Initialize<'info> {
-    #[account(mut)]
-    pub admin: Signer<'info>,
-
-    // Week 5 Drill: Initialize PDA with seeds
-    // This ensures only one 'vault' can exist per admin
+#[derive(Accounts)] // Rule: This macro generates the "Bumps" and "try_accounts" logic
+pub struct DepositCollateral<'info> {
     #[account(
-        init,
-        payer = admin,
-        space = Vault::MAXIMUM_SIZE,
-        seeds = [VAULT_SEED, admin.key().as_ref()],
+        init_if_needed, 
+        payer = user, 
+        space = UserVault::LEN, 
+        seeds = [b"vault", user.key().as_ref()], 
         bump
     )]
-    pub vault: Account<'info, Vault>,
-
+    pub vault_account: Account<'info, UserVault>,
+    
+    #[account(mut)]
+    pub user: Signer<'info>,
+    
     pub system_program: Program<'info, System>,
 }
 
-pub fn handler(ctx: Context<Initialize>) -> Result<()> {
-    let vault = &mut ctx.accounts.vault;
-    vault.admin = ctx.accounts.admin.key();
-    vault.total_deposits = 0;
-    vault.bump = ctx.bumps.vault; // Store the bump for Week 10 security checks
+// RULE: Only ONE handler per file in this modular structure
+pub fn handler(ctx: Context<DepositCollateral>, amount: u64) -> Result<()> {
+    let vault = &mut ctx.accounts.vault_account;
+    
+    if vault.owner == Pubkey::default() {
+        vault.owner = ctx.accounts.user.key();
+        vault.bump = ctx.bumps.vault_account;
+    }
 
-    msg!("Vault Initialized. Admin: {}", vault.admin);
+    // Precision Rule: Preventing HFT exploits
+    vault.collateral = vault.collateral
+        .checked_add(amount)
+        .ok_or(ErrorCode::MathOverflow)?;
+
     Ok(())
 }
-

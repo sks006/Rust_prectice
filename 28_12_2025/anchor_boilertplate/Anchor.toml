@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-anchor_boilertplate = "GKRNgpjvn5E1wGgw1YcpPT2Xfn3T928iwzePha7e1u1d"
+anchor_boilertplate = "BUHbcM1P1UUa4jwWc6Zsen9GMjeM5zX6tABScpsAV3wV"
 
 [registry]
 url = "https://api.apr.dev"
@@ -16,6 +16,6 @@ cluster = "localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
-test = "cargo test"
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 \"tests/**/*.ts\""
 
 [hooks]
