@@ -1,0 +1,13 @@
+[package]
+name = "anchor_boileplate"
+version = "0.1.0"
+description = "Anchor Lending Protocol"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "anchor_boileplate"
+
+[dependencies]
+anchor-lang = "0.30.1"
+anchor-spl = "0.30.1"
